@@ -1,0 +1,16 @@
+{
+  "name": "aoc-day-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "day-1.js",
+  "scripts": {
+    "start": "node ./1/day-1-main.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
