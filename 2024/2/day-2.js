@@ -9,51 +9,47 @@ async function main(params) {
     let safeNumberOfReports = 0;
     for await (const line of readLine) {
         const numberArray = line.split(' ').map(Number);
-        const isSafe = checkSafeList(numberArray);
-        if (isSafe)
+        const result = checkWithBadLevel(numberArray);
+        if (result) {
             safeNumberOfReports++;
+        }
 
     }
     console.log(safeNumberOfReports);
 }
 
-function checkSafeList(numberArray, removeCount = 0) {
-    if (removeCount > 1)
-        return false;
-    let isIncreasing = false;
-    if (numberArray[0] == numberArray[1])
-        isIncreasing = numberArray[2] > numberArray[1];
-    else
-        isIncreasing = numberArray[1] > numberArray[0];
-    for (let i = 1; i < numberArray.length; i++) {
-        let isRowSafe = isSafe(numberArray, i, isIncreasing);
-        if (!isRowSafe) {
-            removeCount++;
-            // remove left
-            let leftList = [...numberArray];
-            leftList.splice(i-1, 1);
-            let leftResult = checkSafeList(leftList, removeCount);
-
-            // remove current
-            let currentList = [...numberArray];
-            currentList.splice(i, 1);
-            let currentResult = checkSafeList(currentList, removeCount);
-            
-            // remove right
-            let rightList = [...numberArray];
-            rightList.splice(i+1, 1)
-            let rightResult = checkSafeList(rightList, removeCount);
-            return leftResult || currentResult || rightResult;
+function checkWithBadLevel(numberArray) {
+    const isSafe = checkSafeList(numberArray);
+    if (isSafe)
+        return true;
+    else {
+        for (let i = 0; i < numberArray.length; i++) {
+            const copiedList = [...numberArray];
+            copiedList.splice(i, 1);
+            if (checkSafeList(copiedList)) {
+                return true;
+            }
         }
+    }
+    return false;
+}
+
+function checkSafeList(numberArray) {
+    const isIncreasing = numberArray[1] > numberArray[0];
+    const isDecreasing = numberArray[1] < numberArray[0];
+
+    for (let i = 1; i < numberArray.length; i++) {
+        const diff = numberArray[i] - numberArray[i - 1];
+
+        if (Math.abs(diff) < 1 || Math.abs(diff) > 3)
+            return false;
+
+        if (isIncreasing && diff <= 0)
+            return false;
+        if (isDecreasing && diff >= 0)
+            return false;
     }
     return true;
 }
 
-function isSafe(list, index, isIncreasing) {
-    let inRange = Math.abs(list[index] - list[index - 1]) <= 3;
-    let isFlowing = isIncreasing ? list[index] > list[index - 1]
-        : list[index] < list[index - 1];
-    return inRange && isFlowing;
-}
-
-module.exports = { main, checkSafeList }
+module.exports = { main, checkWithBadLevel }
