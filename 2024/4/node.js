@@ -1,4 +1,4 @@
-const DIRECTION = require('./direction.enum');
+const { DIRECTION } = require('./direction.enum');
 
 class Node {
     constructor(x, y, value) {
@@ -27,13 +27,13 @@ class Node {
         //     return false
 
         // return this.edges[direction].traverse(direction, searchString, ++depth);
-        if (!this.edges[0] || !this.edges[2] || !this.edges[4] || !this.edges[6])
+        if (!this.edges[DIRECTION.TOPLEFT] || !this.edges[DIRECTION.TOPRIGHT] || !this.edges[DIRECTION.BOTTOMRIGHT] || !this.edges[DIRECTION.BOTTOMLEFT])
             return false;
 
-        let first = this.edges[0].value + this.edges[4].value;
+        let first = this.edges[DIRECTION.TOPLEFT].value + this.edges[BOTTOMRIGHT].value;
         let isFirstValid = first.includes("M") && first.includes("S");
 
-        let second = this.edges[2].value + this.edges[6].value;
+        let second = this.edges[DIRECTION.TOPRIGHT].value + this.edges[BOTTOMLEFT].value;
         let isSecondValid = second.includes("M") && second.includes("S");
 
         return isFirstValid && isSecondValid;
