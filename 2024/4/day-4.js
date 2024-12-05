@@ -19,7 +19,7 @@ async function main(params) {
             let mapKey = getMapKey(x, y);
             let node = new Node(x, y, char);
             nodeMap[mapKey] = node;
-            if (char == 'X')
+            if (char == 'A')
                 startNodes.push(node);
         }
         y++;
@@ -30,17 +30,19 @@ async function main(params) {
     });
 
     let result = 0;
+    // for (const node of startNodes) {
+        // for(const direction of Object.values(DIRECTION)) {
+            // if (node.traverse(direction, searchString, 0)) {
+                // result++;
+            // }
+        // }
+    // }
     for (const node of startNodes) {
-        for(const direction of Object.values(DIRECTION)) {
-            if (node.traverse(direction, searchString, 0)) {
-                result++;
-            }
-        }
+        if (node.traverse("", "", 0))
+            result++;
     }
 
     console.log(result);
-
-    console.log(nodeMap);
 }
 
 function getMapKey(x, y) {
