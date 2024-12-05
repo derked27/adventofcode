@@ -13,27 +13,29 @@ class Node {
     }
 
     traverse(direction, searchString, depth) {
-        // Part 1
-        // // At end
-        // if (searchString.length - 1 == depth && searchString[searchString.length - 1] == this.value)
-        //     return true;
+        // At end
+        if (searchString.length - 1 == depth && searchString[searchString.length - 1] == this.value)
+            return true;
 
-        // // If no value at next direction
-        // if (!this.edges[direction])
-        //     return false;
+        // If no value at next direction
+        if (!this.edges[direction])
+            return false;
 
-        // // Determine if current node is valid
-        // if (searchString[depth] != this.value)
-        //     return false
+        // Determine if current node is valid
+        if (searchString[depth] != this.value)
+            return false
 
-        // return this.edges[direction].traverse(direction, searchString, ++depth);
+        return this.edges[direction].traverse(direction, searchString, ++depth);
+    }
+
+    traverse2() {
         if (!this.edges[DIRECTION.TOPLEFT] || !this.edges[DIRECTION.TOPRIGHT] || !this.edges[DIRECTION.BOTTOMRIGHT] || !this.edges[DIRECTION.BOTTOMLEFT])
             return false;
 
-        let first = this.edges[DIRECTION.TOPLEFT].value + this.edges[BOTTOMRIGHT].value;
+        let first = this.edges[DIRECTION.TOPLEFT].value + this.edges[DIRECTION.BOTTOMRIGHT].value;
         let isFirstValid = first.includes("M") && first.includes("S");
 
-        let second = this.edges[DIRECTION.TOPRIGHT].value + this.edges[BOTTOMLEFT].value;
+        let second = this.edges[DIRECTION.TOPRIGHT].value + this.edges[DIRECTION.BOTTOMLEFT].value;
         let isSecondValid = second.includes("M") && second.includes("S");
 
         return isFirstValid && isSecondValid;
