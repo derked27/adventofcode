@@ -11,7 +11,8 @@ async function main(params) {
     const searchString = "XMAS";
     let y = 0;
     let nodeMap = {};
-    let startNodes = [];
+    let part1StartNodes = [];
+    let part2StartNodes = [];
     for await (const line of readLine) {
         let characterList = line.split('');
         for (let x = 0; x < characterList.length; x++) {
@@ -19,8 +20,10 @@ async function main(params) {
             let mapKey = getMapKey(x, y);
             let node = new Node(x, y, char);
             nodeMap[mapKey] = node;
+            if (char == 'X')
+                part1StartNodes.push(node);
             if (char == 'A')
-                startNodes.push(node);
+                part2StartNodes.push(node);
         }
         y++;
     }
@@ -29,20 +32,23 @@ async function main(params) {
         populateEdges(node, nodeMap);
     });
 
-    let result = 0;
-    // for (const node of startNodes) {
-        // for(const direction of Object.values(DIRECTION)) {
-            // if (node.traverse(direction, searchString, 0)) {
-                // result++;
-            // }
-        // }
-    // }
-    for (const node of startNodes) {
-        if (node.traverse("", "", 0))
-            result++;
+    let part1Result = 0;
+    for (const node of part1StartNodes) {
+        for(const direction of Object.values(DIRECTION)) {
+            if (node.traverse(direction, searchString, 0)) {
+                part1Result++;
+            }
+        }
     }
 
-    console.log(result);
+    let part2Result = 0;
+    for (const node of part2StartNodes) {
+        if (node.traverse2())
+            part2Result++;
+    }
+
+    console.log('Part1: ' + part1Result);
+    console.log('Part2: ' + part2Result);
 }
 
 function getMapKey(x, y) {
