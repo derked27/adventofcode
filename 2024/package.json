@@ -4,7 +4,7 @@
   "description": "",
   "main": "day-1.js",
   "scripts": {
-    "start": "node ./4/day-4-main.js",
+    "start": "node ./5/day-5-main.js",
     "test": "jest"
   },
   "author": "",
